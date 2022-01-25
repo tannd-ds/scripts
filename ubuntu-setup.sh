@@ -9,23 +9,6 @@ sudo add-apt-repository universe
 sudo apt install gnome-tweak-tool
 sudo apt install gnome-shell-extensions
 
-## ----- MAKE SYMBOLIC LINK FOR CONFIGURATION FILES -----
-echo -e "\033[0;32mCreating Symbolic links for Config files...\033[0;37m"
-# in ~/ folder
-rm ~/.bashrc
-for file in ~/dotfiles/home/.*; do
-	ln -sf ${file} ~/
-done
-
-# in ~/.config folder
-if [ -d ~/.config ]
-then
-	echo ".config exists in home directory..."
-	ln -sf ~/dotfiles/.config/* ~/.config/
-else
-	echo ".config doesn't exist, create one..."
-	ln -sf ~/dotfiles/.config ~/
-fi
 
 # Helper
 echo -e "\033[0;32mInstalling wget...\033[0;37m"
@@ -45,17 +28,28 @@ sudo bash nodesource_setup.sh
 sudo apt-get install -y nodejs
 rm nodesource_setup.sh
 
+## ----- MAKE SYMBOLIC LINK FOR CONFIGURATION FILES -----
+git clone https://github.com/tannd-ds/dotfiles.git ~/dotfiles/
+echo -e "\033[0;32mCreating Symbolic links for Config files...\033[0;37m"
+# in ~/ folder
+rm ~/.bashrc
+for file in ~/dotfiles/home/.*; do
+	ln -sf ${file} ~/
+done
+
+# in ~/.config folder
+if [ -d ~/.config ]
+then
+	echo "\033[0:33m.config exists in home directory...\033[0;37m"
+	ln -sf ~/dotfiles/.config/* ~/.config/
+else
+	echo "\033[0:33m.config doesn't exist, create one...\033[0;37m"
+	ln -sf ~/dotfiles/.config ~/
+fi
+
 # Alacrity - Terminal Emulator
 echo -e "\033[0;32mInstalling Alacritty...\033[0;37m"
 sudo snap install alacritty --classic
-
-# neoVim
-echo -e "\033[0;32mInstalling Vim & NeoVim...\033[0;37m"
-sudo apt install vim
-sudo snap install nvim --classic
-
-echo -e "\033[0;32mInstalling tmux...\033[0;37m"
-sudo apt install tmux
 
 # Python
 echo -e "\033[0;32mInstalling Python...\033[0;37m"
@@ -69,11 +63,14 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EB3E94ADBE1229CF
 sudo apt update
 sudo apt install teams
 
-# Install plug.vim for NeoVim
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-# Install Vim Plugins using Vim-plug
-gnome-terminal -- nvim -c ':PlugInstall|q|q'
+echo "\033[0;32mDo you want to install nVim Essential? [Y]/n?\033[0;37m"
+read ACCEPT
+if [ "$ACCEPT" = 'Y' ] || [ "$ACCEPT" = 'y' ] || [ "$ACCEPT" = '' ]
+then
+	./nvim-essential
+else
+	echo "\033[0;31mCancled installing nVim Essential...\033[0;37m"
+fi
 
 # install Orchis Theme
 echo -e "\033[0;32mInstalling Orchis Themes...\033[0;37m"
