@@ -1,17 +1,20 @@
 #!/bin/sh
 
-echo -e "\033[0;32mInstalling Vim & NeoVim...\033[0;37m"
-sudo apt install vim
-sudo snap install nvim --classic
+nvim-essential() {
 
-echo -e "\033[0;32mInstalling tmux...\033[0;37m"
-sudo apt install tmux
+	echo -e "\033[0;32mInstalling Vim & NeoVim...\033[0;37m"
+	sudo apt install vim
+	sudo snap install nvim --classic
 
-# Install plug.vim for NeoVim
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-nvim -c ':PlugInstall|q|q'
+	echo -e "\033[0;32mInstalling tmux...\033[0;37m"
+	sudo apt install tmux
 
-# Coc.nvim
-gnome-terminal -- nvim -c ':TSInstall bash vim yaml'
+	# Install plug.vim for NeoVim
+	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+		   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	nvim -c ':PlugInstall|q|q'
 
+	# Coc.nvim
+	gnome-terminal -- nvim -c ':TSInstall bash vim yaml'
+
+}
