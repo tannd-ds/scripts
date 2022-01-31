@@ -95,9 +95,16 @@ setup-ubuntu() {
 	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 	sudo dpkg -i google-chrome-stable_current_amd64.deb
 
+	# User Themes Extensions
 	cd ~/removeLater
 	git clone https://gitlab.gnome.org/GNOME/gnome-shell-extensions gnome-shell-extensions
 	mv gnome-shell-extensions/extensions/user-theme/ ~/.local/share/gnome-shell/
+	# Clipboard Indicator Extensions
+	git clone https://github.com/Tudmotu/gnome-shell-extension-clipboard-indicator.git ~/.local/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com
+
+	# Enable Extensions
+	gnome-extensions enable clipboard-indicator@tudmotu.com
+	gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
 
 	# Download Wallpaper
 	wget -O ~/Pictures/astronaut-wallpaper.jpg "https://docs.google.com/uc?export=download&id=19Wrrlz9RO2x9m34xGwgrOF8RGDtCfCU8"
